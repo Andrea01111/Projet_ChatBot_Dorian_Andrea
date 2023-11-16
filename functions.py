@@ -119,5 +119,4 @@ def del_punctuation_all_file():
     return ""
 
 #print(del_punctuation_all_file())
-#bdbiivevi
-#UYFGHJKLOPJJJJJJJJ
+#hzoajijkcwsvcb
