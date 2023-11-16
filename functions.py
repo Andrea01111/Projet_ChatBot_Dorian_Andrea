@@ -8,6 +8,7 @@ def makedir(txt):
     print(f"Making of the directory '{txt}'... ")
     time.sleep(1)
     return ""
+#zlidkn
 
 
 def list_of_files(directory, extension):
