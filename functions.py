@@ -21,7 +21,7 @@ def list_of_files(directory, extension):
 directory = 'speeches-20231105'
 files_names = list_of_files(directory, "txt")
 #print_list(files_names)
-print(files_names)
+#print(files_names)
 #print()
 
 def nom_president(file_names):
@@ -32,11 +32,12 @@ def nom_president(file_names):
             st = ord(file_names[i][j])
             if 90 >= st >= 65 or 122 >= st >= 97:
                 s += file_names[i][j]
+            print(s)
         l_of_names.append(s)
     return list(set(l_of_names))
 
 l_name_president = nom_president(files_names)
-print(l_name_president)
+#print(l_name_president)
 
 def first_name():
     global l_name_president
@@ -59,7 +60,7 @@ def cleaned_file(text):
         return f"The file '{text}' already exist in 'cleaned'"
     else:                                               #Changement des majuscules en minuscules
         os.chdir(dir + "/speeches-20231105")
-        with open(text,"r") as t:
+        with open(text,"r",encoding="UTF-8") as t:
             l = t.readlines()
             new_txt = ""
             for i in range(len(l)):
@@ -73,13 +74,13 @@ def cleaned_file(text):
     os.chdir(dir + '/cleaned')
     print(f"Making of the file '{text}' in 'cleaned'...")
     time.sleep(1)
-    with open(text,"w") as c:
+    with open(text,"w",encoding="UTF-8") as c:
         c.write(new_txt)
     os.chdir(dir)
     return ""
 
 
-#print(cleaned_file("Nomination_Macron.txt"))
+#print(cleaned_file("Nomination_Mitterrand1.txt"))
 
 
 def del_punctuation(text):
@@ -89,10 +90,10 @@ def del_punctuation(text):
     elif text not in os.listdir("cleaned"):
         cleaned_file(text)
     os.chdir(dir + "/cleaned")
-    t = open(text,"r")
+    t = open(text,"r",encoding="UTF-8")
     txt = t.readlines()
     t.close()
-    t = open(text,"w")
+    t = open(text,"w", encoding="UTF-8")
     new_txt = ""
     for i in range(len(txt)):
         st = ""
@@ -109,14 +110,16 @@ def del_punctuation(text):
     os.chdir(dir)
     return ""
 
-#print(del_punctuation("Nomination_Giscard dEstaing.txt"))
+#print(del_punctuation("Nomination_Sarkozy.txt"))
+
 
 def del_punctuation_all_file():
     dir = os.getcwd()
     l = os.listdir(dir + "/speeches-20231105")
     for i in range(len(l)):
-        del_punctuation(l[i])
+        if l[i] != '.DS_Store':             #Condition pour MacOs
+            del_punctuation(l[i])
     return ""
 
-#print(del_punctuation_all_file())
-#hzoajijkcwsvcb
+
+#del_punctuation_all_file()
