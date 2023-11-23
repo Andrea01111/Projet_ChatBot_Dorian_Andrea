@@ -1,5 +1,6 @@
 import os
 import time
+import math
 
 print()
 
@@ -20,9 +21,7 @@ def list_of_files(directory, extension):
 # Call of the function
 directory = 'speeches-20231105'
 files_names = list_of_files(directory, "txt")
-#print_list(files_names)
 #print(files_names)
-#print()
 
 def nom_president(file_names):
     l_of_names = []
@@ -32,7 +31,6 @@ def nom_president(file_names):
             st = ord(file_names[i][j])
             if 90 >= st >= 65 or 122 >= st >= 97:
                 s += file_names[i][j]
-            print(s)
         l_of_names.append(s)
     return list(set(l_of_names))
 
@@ -54,11 +52,14 @@ def show_president():
 
 def cleaned_file(text):
     dir = os.getcwd()
-    if "cleaned" not in os.listdir(dir):           #Création du dossier 'cleaned' s'il n'existe pas
+    #Creation of repertory "cleaned" if he doesn't exist
+    if "cleaned" not in os.listdir(dir):
         makedir("cleaned")
-    if text in os.listdir(dir + "/cleaned"):               #Vérification si le fichier existe déja dans 'cleaned'
+    #Verification if the file request doesn't exist already
+    if text in os.listdir(dir + "/cleaned"):
         return f"The file '{text}' already exist in 'cleaned'"
-    else:                                               #Changement des majuscules en minuscules
+    else:
+        #Beginning of the function ( change all capital letter to lowercase letter)
         os.chdir(dir + "/speeches-20231105")
         with open(text,"r",encoding="UTF-8") as t:
             l = t.readlines()
@@ -117,9 +118,106 @@ def del_punctuation_all_file():
     dir = os.getcwd()
     l = os.listdir(dir + "/speeches-20231105")
     for i in range(len(l)):
-        if l[i] != '.DS_Store':             #Condition pour MacOs
+        #MacOS condition
+        if l[i] != '.DS_Store':
             del_punctuation(l[i])
     return ""
 
 
 #del_punctuation_all_file()
+
+
+#Creation of the list with the unique words and a
+#dictionary {"name of file": [] list with all the words within the file}
+def tf_1():
+    # Initiating variables
+    l_file = list_of_files("cleaned", "txt")
+    dir = os.getcwd()
+    s_words = ""
+    l_words = []
+    dic_l_file = {}
+    # Change of repertory
+    os.chdir(dir + "/cleaned")
+    #Loop to open and manipulate all files
+    for i in range(len(l_file)):
+        #String which will become a list to add to the dictionary
+        s = ""
+        with open(l_file[i],"r", encoding="UTF-8") as t:
+            l_t = t.readlines()
+            dic_l_file[l_file[i]] = []
+            for j in range(len(l_t)):
+                # Condition to avoid the string " " in the beginning of the lign
+                # and suppression of the character with length 1 and "\n" at the end of the lign
+                if l_t[j][0] != " ":
+                    txt = l_t[j][0]
+                    for k in range(len(l_t[j])):
+                        if 0 < k < len(l_t[j])-1:
+                            if l_t[j][k-1] != " " or l_t[j][k+1] != " ":
+                                txt += l_t[j][k]
+                    txt += " "
+                else:
+                    txt = ""
+                    for k in range(1,len(l_t[j])):
+                        if k < len(l_t[j])-1:
+                            if l_t[j][k - 1] != " " or l_t[j][k+1] != " ":
+                                txt += l_t[j][k]
+                    txt += " "
+                s_words += txt
+                s += txt
+            #Separation of the words and deletion of the string "" in the list for the dictionary
+            s = s.split(" ")
+            for x in range(len(s)):
+                if s[x] != "":
+                    dic_l_file[l_file[i]].append(s[x])
+    # Separation of the words and deletion of the string "" in the list of unique words
+    l = s_words.split(" ")
+    for i in range(len(l)):
+        if l[i] != "":
+            l_words.append(l[i])
+    os.chdir(dir)
+    return list(set(l_words)),dic_l_file
+
+
+def tf_2():
+    l_uni = tf_1()[0]
+    dic = tf_1()[1]
+    M_tf = [["words"]]
+    M_ocu = [["words"]]
+    #Initiating of the first lign in M_tf/M_ocu
+    for keys in dic.keys():
+        M_tf[0].append(keys)
+        M_ocu[0].append(keys)
+    # Matrix for a term frequency in a document
+    for i in range(len(l_uni)):
+        l_inter_tf = [l_uni[i]]
+        l_inter_ocu = [l_uni[i]]
+        for val in dic.values():
+            cpt = 0
+            for j in range(len(val)):
+                if l_uni[i] == val[j]:
+                    cpt += 1
+            l_inter_tf.append(cpt/len(val))
+            l_inter_ocu.append(cpt)
+        M_tf.append(l_inter_tf)
+        M_ocu.append(l_inter_ocu)
+    return M_tf,M_ocu
+
+
+#Function to show matrix TF, takes TF matrix in parameter
+def show_tf(M):
+    l_uni = tf_1()[0]
+    maxi = l_uni[0]
+    for i in range(len(l_uni)):
+        if len(l_uni[i]) > len(maxi):
+            maxi = l_uni[i]
+    for i in range(len(M)):
+        for j in range(len(M[i])):
+            print(M[i][j], end="\t")
+        print()
+    return ""
+
+#show_tf(tf_2()[1])
+
+
+#Ctabet93
+#guiras.zouhour@gmail.com

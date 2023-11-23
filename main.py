@@ -1,5 +1,6 @@
-def b():
-    print("iuefh")
-    return ""
+from functions import *
 
-b()
+
+
+if __name__ == '__main__':
+    print()
