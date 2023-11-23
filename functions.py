@@ -218,6 +218,20 @@ def show_tf(M):
 
 #show_tf(tf_2()[1])
 
+def idf():
+    M = tf_2()[1]
+    dir = os.getcwd()
+    len_file = len(os.listdir(dir + "/cleaned"))
+    dic_idf = {}
+    for i in range(1,len(M)):
+        cpt = 0
+        for j in range(1,len(M[i])):
+            if M[i][j] > 0:
+                cpt += 1
+        dic_idf[M[i][0]] = math.log(len_file/cpt)
+    return dic_idf
+
+
 
 #Ctabet93
 #guiras.zouhour@gmail.com
