@@ -131,8 +131,10 @@ def del_punctuation_all_file():
 #dictionary {"name of file": [] list with all the words within the file}
 def tf_1():
     # Initiating variables
-    l_file = list_of_files("cleaned", "txt")
     dir = os.getcwd()
+    if "cleaned" not in os.listdir(dir):
+        del_punctuation_all_file()
+    l_file = list_of_files("cleaned", "txt")
     s_words = ""
     l_words = []
     dic_l_file = {}
