@@ -3,4 +3,5 @@ from functions import *
 
 
 if __name__ == '__main__':
-    print()
+    print(idf())
+

@@ -179,9 +179,10 @@ def tf_1():
     os.chdir(dir)
     return list(set(l_words)),dic_l_file
 
+l_uni = tf_1()[0]
 
 def tf_2():
-    l_uni = tf_1()[0]
+    global l_uni
     dic = tf_1()[1]
     M_tf = [["words"]]
     M_ocu = [["words"]]
@@ -206,8 +207,8 @@ def tf_2():
 
 
 #Function to show matrix TF, takes TF matrix in parameter
-def show_tf(M):
-    l_uni = tf_1()[0]
+def show_M(M):
+    global l_uni
     maxi = l_uni[0]
     for i in range(len(l_uni)):
         if len(l_uni[i]) > len(maxi):
@@ -218,7 +219,7 @@ def show_tf(M):
         print()
     return ""
 
-#show_tf(tf_2()[1])
+#show_tf(tf_2()[0])
 
 def idf():
     M = tf_2()[1]
@@ -233,6 +234,29 @@ def idf():
         dic_idf[M[i][0]] = math.log(len_file/cpt)
     return dic_idf
 
+
+def tf_idf():
+    l_file = list_of_files("cleaned","txt")
+    global l_uni
+    dic_idf = idf()
+    M_tf = tf_2()[0]
+    M_tf_idf = [["words"]]
+    #Initiating of the first
+    for i in range(len(l_file)):
+        M_tf_idf[0].append(l_file[i])
+    #Creation matrice idf
+    for i in range(len(l_uni)):
+        l_inter = [l_uni[i]]
+        for j in range(len(l_file)):
+            l_inter.append(M_tf[i+1][j+1]*dic_idf[l_uni[i]])
+        M_tf_idf.append(l_inter)
+    """
+    print()
+    for i in range(len(M_tf)):
+        for j in range(len(M_tf[i])):
+            if M_tf[i][0] == l_uni[0]:
+                print(M_tf[i])"""
+    return M_tf_idf
 
 
 #Ctabet93
