@@ -2,17 +2,17 @@ import os
 import time
 import math
 
-print()
-
+#Funtion to make a directory
 def makedir(txt):
     os.mkdir(txt)
     print(f"Making of the directory '{txt}'... ")
     time.sleep(1)
     return ""
 
-
+#Function which will return a list of file in a directory selected
 def list_of_files(directory, extension):
     files_names = []
+    #Loop to navigate in the directory
     for filename in os.listdir(directory):
         if filename.endswith(extension):
             files_names.append(filename)
@@ -21,22 +21,26 @@ def list_of_files(directory, extension):
 # Call of the function
 directory = 'speeches-20231105'
 files_names = list_of_files(directory, "txt")
-#print(files_names)
 
+
+#Function to get the name of the president
 def nom_president(file_names):
     l_of_names = []
+    #Loop in the list
     for i in range(len(file_names)):
         s = ''
+        #Loop in the string
         for j in range(11,len(file_names[i])-4):
             st = ord(file_names[i][j])
+            #Condition to make sure the character is a letter
             if 90 >= st >= 65 or 122 >= st >= 97:
                 s += file_names[i][j]
         l_of_names.append(s)
     return list(set(l_of_names))
 
 l_name_president = nom_president(files_names)
-#print(l_name_president)
 
+#Function to select the first name of the president
 def first_name():
     global l_name_president
     dic_first_name = {}
@@ -44,18 +48,21 @@ def first_name():
         dic_first_name[l_name_president[i]] = input(f"Enter the first name of {l_name_president[i]} : ")
     return dic_first_name
 
+#Function to print the name of the president
 def show_president():
     global l_name_president
     for i in range(len(l_name_president)):
         print(l_name_president[i],end=" ")
     return ""
 
+
+#Function to delete all the capital letter and to create a new directory to put them in
 def cleaned_file(text):
     dir = os.getcwd()
     #Creation of repertory "cleaned" if he doesn't exist
     if "cleaned" not in os.listdir(dir):
         makedir("cleaned")
-    #Verification if the file request doesn't exist already
+    #Verification if the file request, doesn't exist already
     if text in os.listdir(dir + "/cleaned"):
         return f"The file '{text}' already exist in 'cleaned'"
     else:
@@ -75,16 +82,17 @@ def cleaned_file(text):
     os.chdir(dir + '/cleaned')
     print(f"Making of the file '{text}' in 'cleaned'...")
     time.sleep(1)
+    #Writting of the file
     with open(text,"w",encoding="UTF-8") as c:
         c.write(new_txt)
     os.chdir(dir)
     return ""
 
 
-#print(cleaned_file("Nomination_Mitterrand1.txt"))
-
-
+#Function to delete all punctuation from the text
 def del_punctuation(text):
+    #Initiation of the variables and condition to make sure the directory "cleaned" and the file requested doesn't
+    #exist already
     dir = os.getcwd()
     if "cleaned" not in os.listdir(dir):
         cleaned_file(text)
@@ -96,9 +104,11 @@ def del_punctuation(text):
     t.close()
     t = open(text,"w", encoding="UTF-8")
     new_txt = ""
+    #Loop to manipulate all the character in the file and remove the punctuation
     for i in range(len(txt)):
         st = ""
         for j in range(len(txt[i])):
+            #Condition to make sure the character is a letter
             if 122 >= ord(txt[i][j]) >= 97 or 255 >= ord(txt[i][j]) >= 224 or txt[i][j] == " ":
                 st += txt[i][j]
             elif (txt[i][j] == "'" or txt[i][j] == "-") and j != 0:
@@ -106,12 +116,11 @@ def del_punctuation(text):
             elif txt[i][j] == "\n":
                 st += "\n"
         new_txt += st
+    #Writing of the new file
     t.write(new_txt)
     t.close()
     os.chdir(dir)
     return ""
-
-#print(del_punctuation("Nomination_Sarkozy.txt"))
 
 
 def del_punctuation_all_file():
@@ -122,9 +131,6 @@ def del_punctuation_all_file():
         if l[i] != '.DS_Store':
             del_punctuation(l[i])
     return ""
-
-
-#del_punctuation_all_file()
 
 
 #Creation of the list with the unique words and a
@@ -179,9 +185,13 @@ def tf_1():
     os.chdir(dir)
     return list(set(l_words)),dic_l_file
 
+
+#l_uni (global) list of the unique word
 l_uni = tf_1()[0]
 
+#Function to create the tf and the tf_ocu matrix
 def tf_2():
+    # Initiating variables
     global l_uni
     dic = tf_1()[1]
     M_tf = [["words"]]
@@ -190,7 +200,7 @@ def tf_2():
     for keys in dic.keys():
         M_tf[0].append(keys)
         M_ocu[0].append(keys)
-    # Matrix for a term frequency in a document
+    # Matrix for a term frequency in a document and the other with the tf score
     for i in range(len(l_uni)):
         l_inter_tf = [l_uni[i]]
         l_inter_ocu = [l_uni[i]]
@@ -206,7 +216,7 @@ def tf_2():
     return M_tf,M_ocu
 
 
-#Function to show matrix TF, takes TF matrix in parameter
+#Function to show matrix TF, takes matrix in parameter
 def show_M(M):
     global l_uni
     maxi = l_uni[0]
@@ -219,13 +229,15 @@ def show_M(M):
         print()
     return ""
 
-#show_tf(tf_2()[0])
 
+#Function to make the idf dictionary : dic_idf = {"word": score idf}
 def idf():
+    # Initiating variables
     M = tf_2()[1]
     dir = os.getcwd()
     len_file = len(os.listdir(dir + "/cleaned"))
     dic_idf = {}
+    #Loop to create the value to add to the dictionary
     for i in range(1,len(M)):
         cpt = 0
         for j in range(1,len(M[i])):
@@ -235,29 +247,21 @@ def idf():
     return dic_idf
 
 
+#Function to create the tf_idf matrix
 def tf_idf():
+    # Initiating variables
     l_file = list_of_files("cleaned","txt")
     global l_uni
     dic_idf = idf()
     M_tf = tf_2()[0]
     M_tf_idf = [["words"]]
-    #Initiating of the first
+    #Initiating of the first lign in the matrix
     for i in range(len(l_file)):
         M_tf_idf[0].append(l_file[i])
-    #Creation matrice idf
+    #Creation of the tf_idf matrix
     for i in range(len(l_uni)):
         l_inter = [l_uni[i]]
         for j in range(len(l_file)):
             l_inter.append(M_tf[i+1][j+1]*dic_idf[l_uni[i]])
         M_tf_idf.append(l_inter)
-    """
-    print()
-    for i in range(len(M_tf)):
-        for j in range(len(M_tf[i])):
-            if M_tf[i][0] == l_uni[0]:
-                print(M_tf[i])"""
     return M_tf_idf
-
-
-#Ctabet93
-#guiras.zouhour@gmail.com
