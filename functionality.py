@@ -115,7 +115,7 @@ def climate_eco():
     #Loop to get the lign of climate or ecology, bool --> stop the loop to the first appearance of the word
     #ind --> get the column of the first president to talk about the word
     for i in range(len(M_tf_ocu)):
-        if M_tf_ocu[i+1][0] == "climat" or M_tf_ocu[i+1][0] == "écologie":
+        if M_tf_ocu[i][0] == "climat" or M_tf_ocu[i][0] == "écologie":
             for j in range(1,len(M_tf_ocu[i])):
                 if M_tf_ocu[i][j] != 0 and bool == True:
                     bool = False
