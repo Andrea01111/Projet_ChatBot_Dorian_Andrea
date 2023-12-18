@@ -22,7 +22,6 @@ def list_of_files(directory, extension):
 directory = 'speeches-20231105'
 files_names = list_of_files(directory, "txt")
 
-
 #Function to get the name of the president
 def nom_president(file_names):
     l_of_names = []
@@ -133,7 +132,7 @@ def del_punctuation_all_file():
     return ""
 
 
-#Creation of the list with the unique words and a
+#Creation of the list with the unique words l_words and a
 #dictionary {"name of file": [] list with all the words within the file}
 def tf_1():
     # Initiating variables
@@ -155,20 +154,20 @@ def tf_1():
             dic_l_file[l_file[i]] = []
             for j in range(len(l_t)):
                 # Condition to avoid the string " " in the beginning of the lign
-                # and suppression of the character with length 1 and "\n" at the end of the lign
+                # and suppression of the character "\n" at the end of the lign
                 if l_t[j][0] != " ":
                     txt = l_t[j][0]
                     for k in range(len(l_t[j])):
                         if 0 < k < len(l_t[j])-1:
-                            if l_t[j][k-1] != " " or l_t[j][k+1] != " ":
-                                txt += l_t[j][k]
+                            #if l_t[j][k-1] != " " or l_t[j][k+1] != " ":
+                            txt += l_t[j][k]
                     txt += " "
                 else:
                     txt = ""
                     for k in range(1,len(l_t[j])):
                         if k < len(l_t[j])-1:
-                            if l_t[j][k - 1] != " " or l_t[j][k+1] != " ":
-                                txt += l_t[j][k]
+                            #if l_t[j][k - 1] != " " or l_t[j][k+1] != " ":
+                            txt += l_t[j][k]
                     txt += " "
                 s_words += txt
                 s += txt
@@ -184,7 +183,6 @@ def tf_1():
             l_words.append(l[i])
     os.chdir(dir)
     return list(set(l_words)),dic_l_file
-
 
 #l_uni (global) list of the unique word
 l_uni = tf_1()[0]
@@ -243,7 +241,7 @@ def idf():
         for j in range(1,len(M[i])):
             if M[i][j] > 0:
                 cpt += 1
-        dic_idf[M[i][0]] = math.log(len_file/cpt)
+        dic_idf[M[i][0]] = math.log10(len_file/cpt)
     return dic_idf
 
 

@@ -17,7 +17,6 @@ def lower_tf_idf():
     return l
 
 
-
 #Function to get the higher tf_idf score in corpus
 def max_tf_idf():
     # Initiation of variables
@@ -41,7 +40,6 @@ def max_tf_idf():
 def max_f_word(txt):
     # Initiation of variables
     M_tf_ocu = tf_2()[1]
-    print(M_tf_ocu[0])
     l = []
     l2 = []
     maxi = 0
@@ -55,7 +53,7 @@ def max_f_word(txt):
         for j in range(1,len(M_tf_ocu)):
             if M_tf_ocu[j][l[i]] > maxi:
                 maxi = M_tf_ocu[j][l[i]]
-    #Loop to append the most repeated word by a president un the list l2
+    #Loop to append the most repeated word by a president in the list l2
     for i in range(len(l)):
         for j in range(1,len(M_tf_ocu)):
             if M_tf_ocu[j][l[i]] == maxi:
