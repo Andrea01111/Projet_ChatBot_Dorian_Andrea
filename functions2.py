@@ -1,3 +1,4 @@
+"""MY_FIRST_CHATBOT Dorian Maury - Andrea Dario : fichier pour créer le calcul de la similarité et générer une réponse."""
 from functions import *
 import functionality
 import math

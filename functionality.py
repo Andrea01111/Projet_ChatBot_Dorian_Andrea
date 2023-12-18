@@ -1,3 +1,4 @@
+"""MY_FIRST_CHATBOT Dorian Maury - Andrea Dario : fichier qui comprend toutes les fonctions des fonctionnalités."""
 from functions import *
 
 #Function to get the lower tf_idf

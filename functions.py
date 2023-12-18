@@ -1,3 +1,5 @@
+"""MY_FIRST_CHATBOT Dorian Maury - Andrea Dario : fichier qui réalise le traitement de texte et génére les matrices
+des calculs du tf-idf."""
 import os
 import time
 import math

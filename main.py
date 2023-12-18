@@ -1,3 +1,4 @@
+"""MY_FIRST_CHATBOT Dorian Maury - Andrea Dario : fichier main pour l'éxecution du menu."""
 # Import functions from the "Functionality" file
 from functionality import *
 import functions2
