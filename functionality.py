@@ -125,19 +125,3 @@ def climate_eco():
         if l_name[i] in str_pre:
             str_pre = l_name[i]
     return str_pre
-
-
-
-def higher_f_words():
-    #Initiation of variables
-    M_tf_ocu = tf_2()[1]
-    l = []
-    #Loop to append the lign where the tf occurrence of the word is none equal to zero in every files
-    for i in range(1,len(M_tf_ocu)):
-        bool = True
-        for j in range(1,len(M_tf_ocu[i])):
-            if M_tf_ocu[i][j] == 0:
-                bool = False
-        if bool:
-            l.append(M_tf_ocu[i][0])
-    return l
