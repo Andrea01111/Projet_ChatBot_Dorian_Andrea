@@ -1,3 +1,8 @@
+DORIAN MAURY - ANDREA DARIO
+
+Lien GitHub : https://github.com/Andrea01111/Projet_ChatBot_Dorian_Andrea
+
+
 Dans la première partie du projet vous avez la possibilité d'accéder à un menu interactif dans le ficher "main.py" qui vous propose d'utiliser les différentes fonctions développées dans le fichier "functionality.py".
 
 Ces fonctions vont utiliser les fonctions du développement du score tf-idf dans le fichier "functions.py" pour vous renvoyer le résultat attendu.
